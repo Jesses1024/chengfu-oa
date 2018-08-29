@@ -110,7 +110,6 @@ class AttendanceList extends Component {
   }
 
   handleRemove = (id) => {
-    console.log(1111);
     this.props.dispatch({
       type: 'attendanceList/remove',
       payload: id,
@@ -169,8 +168,10 @@ class AttendanceList extends Component {
       title: '操作',
       render: item => (
         <Fragment>
-          <HasPermission perms={['inside:hire:edit', 'inside:hire:view']} noMatch="-">
+          <HasPermission perms={['inside:attendance:view']} noMatch="-">
             <Link to={`/inside/attendance-detail/${item.id}`}>查看</Link>
+          </HasPermission>
+          <HasPermission perms={['inside:attendance:edit']} noMatch="-">
             {item.status === 'preview' && (
               <Popconfirm
                 title="您确定要删除吗？"
@@ -211,7 +212,7 @@ class AttendanceList extends Component {
             </div>
 
             <div className={styles.tableListOperator}>
-              <HasPermission perms={['inside:hire:edit']}>
+              <HasPermission perms={['inside:attendance:edit']}>
                 <CreateModal />
               </HasPermission>
             </div>

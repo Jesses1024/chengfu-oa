@@ -63,7 +63,12 @@ class ContactsList extends Component {
     });
     dispatch({
       type: 'contactList/fetch',
-      payload: {},
+      payload: {
+        pagination: {
+          current: 1,
+          pageSize: 10,
+        },
+      },
     });
   }
 
@@ -188,7 +193,7 @@ class ContactsList extends Component {
         title: '更新时间',
         dataIndex: 'lastModifiedDate',
         sorter: true,
-        render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+        render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm')}</span>,
       },
       {
         title: '备注',

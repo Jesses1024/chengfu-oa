@@ -6,7 +6,8 @@ import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import FormLoading from '../../../components/FormLoading';
 import StopedModal from '../../../components/StopedModal';
 import BatchImport from '../../../components/BatchImport';
-// import HasPermission from '../../../utils/HasPermission';
+import OverText from '../../../components/OverText';
+import HasPermission from '../../../utils/HasPermission';
 import { formatNum } from '../../../utils/utils';
 import ItemsModal from './ItemsModal';
 import styles from '../Detail.less';
@@ -49,7 +50,7 @@ export default class AttendanceDetail extends Component {
     const { data = {} } = this.props.attendanceForm;
     this.props.dispatch({
       type: 'attendanceForm/editStatus',
-      payload: { ...data, rejectedDescription: description, status: 'reject' },
+      payload: { ...data, rejectedDescription: description, status: 'rejected' },
     });
     this.toggleStopenModal();
   }
@@ -136,14 +137,18 @@ export default class AttendanceDetail extends Component {
     const { status } = data;
     if (status === 'preview') {
       return (
-        <Button type="primary" onClick={this.handleEditStatus}>提审</Button>
+        <HasPermission perms={['inside:attendance:audit']}>
+          <Button type="primary" onClick={this.handleEditStatus}>提审</Button>
+        </HasPermission>
       );
     } else if (status === 'preAudit') {
       return (
-        <Fragment>
-          <Button type="danger" onClick={this.toggleStopenModal}>驳回</Button>
-          <Button type="primary" onClick={this.handleEditStatus}>通过</Button>
-        </Fragment>
+        <HasPermission perms={['inside:attendance:audit']}>
+          <Fragment>
+            <Button type="danger" onClick={this.toggleStopenModal}>驳回</Button>
+            <Button type="primary" onClick={this.handleEditStatus}>通过</Button>
+          </Fragment>
+        </HasPermission>
       );
     }
   }
@@ -160,6 +165,9 @@ export default class AttendanceDetail extends Component {
         <Col xs={24} sm={24}>
           <div className={styles.textSecondary}>状态</div>
           <div className={styles.heading}>{statusTextMap[data.status]}</div>
+          {data.status === 'rejected' && (
+            <OverText title="驳回备注" value={data.rejectedDescription} />
+          )}
         </Col>
       </Row>
     );
@@ -304,18 +312,22 @@ export default class AttendanceDetail extends Component {
           style={{ marginBottom: 24 }}
           bordered={false}
         >
-          <Button type="primary" style={{ marginBottom: 16, marginRight: 8 }} onClick={() => this.handleOpenItemModal()}>新增</Button>
-          <BatchImport
-            url={`/api/attendance/${data.id}/excel`}
-            onChange={this.fetch}
-          />
+          {data.status === 'preview' && (
+            <Fragment>
+              <Button type="primary" style={{ marginBottom: 16, marginRight: 8 }} onClick={() => this.handleOpenItemModal()}>新增</Button>
+              <BatchImport
+                url={`/api/attendance/${data.id}/excel`}
+                onChange={this.fetch}
+              />
+            </Fragment>
+          )}
           <Table
             rowKey="id"
             bordered
             dataSource={data.items || []}
             columns={this.renderColumns(data)}
             pagination={false}
-            scroll={{ x: 2000 }}
+            scroll={{ x: data.status === 'preview' ? 2000 : 1850 }}
           />
         </Card>
         <StopedModal

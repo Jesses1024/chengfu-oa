@@ -72,24 +72,6 @@ export const getRouterData = (app) => {
     '/': {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
-    '/inventory/warehouse-list': {
-      component: dynamicWrapper(app, ['warehouseList'], () => import('../routes/Inventory/Warehouse/List')),
-    },
-    '/inventory/warehouse-form': {
-      component: dynamicWrapper(app, ['warehouseForm'], () => import('../routes/Inventory/Warehouse/Form')),
-    },
-    '/inventory/position-list': {
-      component: dynamicWrapper(app, ['positionList'], () => import('../routes/Inventory/Positions/List')),
-    },
-    '/inventory/position-form': {
-      component: dynamicWrapper(app, ['positionForm'], () => import('../routes/Inventory/Positions/Form')),
-    },
-    '/inventory/shelf-list': {
-      component: dynamicWrapper(app, ['shelfList'], () => import('../routes/Inventory/Shelf/List')),
-    },
-    '/inventory/shelf-form': {
-      component: dynamicWrapper(app, ['shelfForm'], () => import('../routes/Inventory/Shelf/Form')),
-    },
     '/project/list': {
       component: dynamicWrapper(app, ['projectList'], () => import('../routes/Project/List')),
     },

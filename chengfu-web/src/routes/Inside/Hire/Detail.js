@@ -87,7 +87,7 @@ export default class HireDetail extends Component {
           <HasPermission perms={['inside:hire:edit']}>
             <Button onClick={() => this.gotoEdit(data.id)}>编辑</Button>
           </HasPermission>
-          <HasPermission perms={['inside:hire:audit', 'inside:hire:edit']}>
+          <HasPermission perms={['inside:hire:audit']}>
             <Fragment>
               <Button type="danger" onClick={this.toggleStopenModal}>驳回</Button>
               <Button type="primary" onClick={() => this.handlePass(data.id)}>通过</Button>

@@ -8,6 +8,12 @@ export default createFormModel({
   redirectUrl: '/inside/leave-list',
 }, {
   effects: {
+    *resetData(payload, { put }) {
+      yield put({
+        type: 'saveResponse',
+        payload: {},
+      });
+    },
     *editStatus({ payload }, { call, put }) {
       const res = yield call(LeaveForm.save, payload);
       if (!res.error) {

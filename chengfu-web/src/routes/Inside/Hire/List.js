@@ -76,7 +76,12 @@ class ProjectList extends Component {
     });
     dispatch({
       type: 'hireList/fetch',
-      payload: {},
+      payload: {
+        pagination: {
+          current: 1,
+          pageSize: 10,
+        },
+      },
     });
   }
 
@@ -160,8 +165,10 @@ class ProjectList extends Component {
       title: '操作',
       render: item => (
         <Fragment>
-          <HasPermission perms={['inside:hire:edit', 'inside:hire:view']} noMatch="-">
+          <HasPermission perms={['inside:hire:view']} noMatch="-">
             <Link to={`/inside/hire-detail/${item.id}`}>查看</Link>
+          </HasPermission>
+          <HasPermission perms={['inside:hire:edit']} noMatch="-">
             {item.status === 'pending' && (
               <Fragment>
                 <Divider type="vertical" />

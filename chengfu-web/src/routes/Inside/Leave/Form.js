@@ -39,6 +39,12 @@ export default class StaffForm extends PureComponent {
     this.fetchInfo();
   }
 
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'leaveForm/resetData',
+    });
+  }
+
   fetchInfo = () => {
     const { id } = this.state;
     this.props.dispatch({
@@ -58,7 +64,8 @@ export default class StaffForm extends PureComponent {
     this.props.form.validateFieldsAndScroll((err, values) => {
       const { leaveForm: { data } } = this.props;
       if (!err) {
-        const p = { ...values, name: values.name.split('-')[0] };
+        const nameIndex = values.name.indexOf('-') >= 0;
+        const p = { ...values, name: nameIndex ? values.name.split('-')[0] : values.name };
         this.props.dispatch({
           type: 'leaveForm/save',
           payload: { ...data, ...p, leaveAuditStatus: data.leaveAuditStatus || 'preReview' },

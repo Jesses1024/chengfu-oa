@@ -86,7 +86,12 @@ export default class ReimburseList extends Component {
     });
     dispatch({
       type: 'reimburseList/fetch',
-      payload: {},
+      payload: {
+        pagination: {
+          current: 1,
+          pageSize: 10,
+        },
+      },
     });
   }
 
@@ -137,7 +142,7 @@ export default class ReimburseList extends Component {
           <Col md={8} sm={24}>
             <FormItem label="搜索">
               {getFieldDecorator('filter')(
-                <Input placeholder="请输入姓名（支持模糊搜索）" />
+                <Input placeholder="请输入报销人（支持模糊搜索）" />
               )}
             </FormItem>
           </Col>
@@ -145,9 +150,15 @@ export default class ReimburseList extends Component {
             <FormItem label="状态">
               {getFieldDecorator('status')(
                 <Select mode="multiple" placeholder="请选择">
-                  <Select.Option key="pending">待审核</Select.Option>
-                  <Select.Option key="accept">已通过</Select.Option>
-                  <Select.Option key="reject">已驳回</Select.Option>
+                  <Select.Option key="preReview">预览</Select.Option>
+                  <Select.Option key="preAudit">待审批</Select.Option>
+                  <Select.Option key="deptLeaderAudit">部门通过</Select.Option>
+                  <Select.Option key="deptLeaderReject">部门驳回</Select.Option>
+                  <Select.Option key="financeAudit">财务通过</Select.Option>
+                  <Select.Option key="financeReject">财务驳回</Select.Option>
+                  <Select.Option key="prepaid">待付款</Select.Option>
+                  <Select.Option key="leaderReject">总经理驳回</Select.Option>
+                  <Select.Option key="paided">付讫</Select.Option>
                 </Select>
               )}
             </FormItem>
@@ -170,8 +181,10 @@ export default class ReimburseList extends Component {
       title: '操作',
       render: item => (
         <Fragment>
-          <HasPermission perms={['inside:reimburse:edit', 'inside:reimburse:view']} noMatch="-">
+          <HasPermission perms={['inside:reimburse:view']} noMatch="-">
             <Link to={`/inside/reimburse-detail/${item.id}`}>查看</Link>
+          </HasPermission>
+          <HasPermission perms={['inside:reimburse:edit']} noMatch="-">
             {item.auditStatus === 'preReview' && (
               <Fragment>
                 <Divider type="vertical" />

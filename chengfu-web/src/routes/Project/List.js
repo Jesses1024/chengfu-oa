@@ -86,7 +86,12 @@ class ProjectList extends Component {
     });
     dispatch({
       type: 'projectList/fetch',
-      payload: {},
+      payload: {
+        pagination: {
+          current: 1,
+          pageSize: 10,
+        },
+      },
     });
   }
 

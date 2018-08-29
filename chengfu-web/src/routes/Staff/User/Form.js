@@ -162,6 +162,20 @@ export default class UserDetail extends PureComponent {
                 </RadioGroup>
               )}
             </FormItem>
+            {/* <FormItem
+              {...formItemLayout}
+              label="数据权限"
+            >
+              {getFieldDecorator('dataAuthority', {
+                initialValue: data.dataAuthority || 0,
+              })(
+                <RadioGroup>
+                  <Radio value={0}>全部</Radio>
+                  <Radio value={1}>当前所属</Radio>
+                  <Radio value={2}>当前及下属</Radio>
+                </RadioGroup>
+              )}
+            </FormItem> */}
             {!getFieldValue('manager') && (
               <FormItem
                 {...formItemLayout}

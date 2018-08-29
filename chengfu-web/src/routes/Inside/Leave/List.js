@@ -84,7 +84,12 @@ class LeaveList extends Component {
     });
     dispatch({
       type: 'leaveList/fetch',
-      payload: {},
+      payload: {
+        pagination: {
+          current: 1,
+          pageSize: 10,
+        },
+      },
     });
   }
 
@@ -143,9 +148,13 @@ class LeaveList extends Component {
             <FormItem label="状态">
               {getFieldDecorator('status')(
                 <Select mode="multiple" placeholder="请选择">
-                  <Select.Option key="pending">待审核</Select.Option>
-                  <Select.Option key="accept">已通过</Select.Option>
-                  <Select.Option key="reject">已驳回</Select.Option>
+                  <Select.Option key="preReview">预览</Select.Option>
+                  <Select.Option key="preAudit">待审核</Select.Option>
+                  <Select.Option key="hrAudit">人事驳回</Select.Option>
+                  <Select.Option key="financeAudit">财务通过</Select.Option>
+                  <Select.Option key="financeReject">财务驳回</Select.Option>
+                  <Select.Option key="leaderAudit">领导通过</Select.Option>
+                  <Select.Option key="leaderReject">领导驳回</Select.Option>
                 </Select>
               )}
             </FormItem>
@@ -168,8 +177,10 @@ class LeaveList extends Component {
       title: '操作',
       render: item => (
         <Fragment>
-          <HasPermission perms={['inside:hire:edit', 'inside:hire:view']} noMatch="-">
+          <HasPermission perms={['inside:leave:view']} noMatch="-">
             <Link to={`/inside/leave-detail/${item.id}`}>查看</Link>
+          </HasPermission>
+          <HasPermission perms={['inside:leave:edit']} noMatch="-">
             {item.leaveAuditStatus === 'preReview' && (
               <Fragment>
                 <Divider type="vertical" />
@@ -224,7 +235,7 @@ class LeaveList extends Component {
             </div>
 
             <div className={styles.tableListOperator}>
-              <HasPermission perms={['inside:leave:edit']}>
+              <HasPermission perms={['inside:leave:edit']} noMatch="-">
                 <Button icon="plus" type="primary" onClick={() => this.gotoDetail()}>
                   新增
                 </Button>
