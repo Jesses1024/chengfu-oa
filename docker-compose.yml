@@ -1,0 +1,60 @@
+version: "3"
+
+services:
+  db_mysql:
+    container_name: chengfu-mysql
+    image: mysql:5.6
+    command: [mysqld, --character-set-server=utf8, --collation-server=utf8_unicode_ci]
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - backend
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: chengfu@2018
+      MYSQL_DATABASE: chengfu
+    expose:
+      - "3306"
+
+  chengfu-server:
+    container_name: chengfu-server
+    image: puxintech/chengfu-server
+    volumes:
+      - uploads:/var/lib/chengfu
+    networks:
+      - backend
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_HOST: db_mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: chengfu@2018
+      MYSQL_DATABASE: chengfu
+      UPLOAD_DIR: /var/lib/chengfu
+    expose:
+      - "8080"
+    depends_on:
+      - db_mysql
+
+  chengfu-web:
+    container_name: chengfu-web
+    image: puxintech/chengfu-web
+    networks:
+      - backend
+      - frontend
+    environment:
+      TZ: Asia/Shanghai
+      VIRTUAL_HOST: chengfu.puxintech.cn
+    expose:
+      - "80"
+    depends_on:
+      - chengfu-server
+
+volumes:
+  db_data:
+  uploads:
+
+networks:
+  backend:
+  frontend:
+    external:
+      name: reverse-proxy

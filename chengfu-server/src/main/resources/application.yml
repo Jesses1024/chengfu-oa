@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL55Dialect
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:chengfu}
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:root}
+
+puxintech:
+  users:
+    admin: 
+      password: 123456
+      display-name: 管理员
+      group: 浦信科技（上海）有限公司
+  file-storage:
+    location: ${UPLOAD_DIR:upload-dir}
+
+logging:
+  level:
+    com.puxintech: debug
