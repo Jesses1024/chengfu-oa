@@ -50,7 +50,6 @@ public class AttendanceController
 	@PostMapping("/{attendanceId}/excel")
 	public void importExcel(@PathVariable Integer attendanceId, @RequestParam("file") MultipartFile file) {
 		AttendanceEntity attendance = am.findById(attendanceId).get();
-		System.out.println(attendance);
 
 		Workbook workbook;
 		String fileName = file.getOriginalFilename();

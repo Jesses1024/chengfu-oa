@@ -9,10 +9,12 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.util.StringUtils;
 
 import com.puxintech.chengfu.core.resource.params.QueryParams;
 import com.puxintech.chengfu.core.resource.params.filter.FilterMode;
+import com.puxintech.chengfu.core.util.SecurityUtils;
 
 import lombok.Data;
 
@@ -38,8 +40,13 @@ public class ProjectQueryParams implements QueryParams<ProjectEntity> {
 		if (status!=null && status.size()!=0) {
 			expressions.add(root.get("status").in(status));
 		}
+		if (!AuthorityUtils.authorityListToSet(SecurityUtils.getAuthUser().getAuthorities()).contains("manager")) {
+			expressions.add(cb.equal(root.get("createdBy"), SecurityUtils.getAuthUser().getUsername()));			
+		}
+		
 		query.orderBy(cb.desc(root.get("createdDate")));
-
+		
+		
 
 		return conjunction;
 	}

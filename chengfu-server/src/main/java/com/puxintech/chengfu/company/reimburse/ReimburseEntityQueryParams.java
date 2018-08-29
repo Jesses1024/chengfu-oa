@@ -14,6 +14,9 @@ import org.springframework.util.StringUtils;
 import com.puxintech.chengfu.core.resource.params.QueryParams;
 import com.puxintech.chengfu.core.resource.params.filter.FilterMode;
 
+import lombok.Data;
+
+@Data
 public class ReimburseEntityQueryParams implements QueryParams<ReimburseEntity>{
 	
 	private static final long serialVersionUID = 1L;
@@ -25,7 +28,7 @@ public class ReimburseEntityQueryParams implements QueryParams<ReimburseEntity>{
 		List<Expression<Boolean>> expressions = conjunction.getExpressions();
 
 		if (StringUtils.hasText(this.filter)) {
-			expressions.add(QueryParams.filter(root, query, cb, filter, FilterMode.Contains, "receiveName"));
+			expressions.add(QueryParams.filter(root, query, cb, filter, FilterMode.Contains, "applyName"));
 		}
 		query.orderBy(cb.desc(root.get("createdDate")));
 		if (status!=null && status.size()!=0) {

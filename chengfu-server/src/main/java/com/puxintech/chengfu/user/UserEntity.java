@@ -3,6 +3,7 @@ package com.puxintech.chengfu.user;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -24,13 +25,15 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Table(name = "users")
+@Table(name = "users", indexes = {
+		@Index(name = "index_users_user_name", columnList = "user_name", unique = true)
+})
 public class UserEntity extends AuditableEntity implements DisplayName {
 
 	@Column(nullable = false)
 	private String displayName;
 
-	@Column(unique = true, updatable = false, nullable = false)
+	@Column(name = "user_name", updatable = false, nullable = false)
 	private String userName;
 
 	@Column(updatable = false)

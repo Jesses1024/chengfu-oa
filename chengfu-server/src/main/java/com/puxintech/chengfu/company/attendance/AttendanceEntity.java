@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.puxintech.chengfu.core.model.AuditableEntity;
@@ -34,6 +36,7 @@ public class AttendanceEntity extends AuditableEntity implements DisplayName {
 
 	private String name;
 
+	@Temporal(TemporalType.DATE)
 	private Date attendanceDate;
 
 	@OrderBy("jobNumber ASC")
@@ -43,6 +46,8 @@ public class AttendanceEntity extends AuditableEntity implements DisplayName {
 
 	/** 审批状态 */
 	private AttendanceAuditStatus status;
+	
+	private String rejectedDescription;
 	
 	/** 是否已删除 */
 	@Column(nullable = false)

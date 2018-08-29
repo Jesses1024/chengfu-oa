@@ -38,7 +38,7 @@ public class UserManagerImpl extends ResourceManagerAdapter<UserEntity, Integer>
 			}
 		}
 
-		return super.save(entity);
+		return repository.save(entity);
 	}
 
 	@Override

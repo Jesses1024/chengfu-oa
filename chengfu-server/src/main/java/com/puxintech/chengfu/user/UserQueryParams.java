@@ -45,7 +45,7 @@ public class UserQueryParams implements QueryParams<UserEntity> {
 		if (enabled != null) {
 			expressions.add(cb.equal(root.get("enabled"), enabled));
 		}
-
+		
 		root.fetch("group", JoinType.LEFT);
 		root.fetch("role", JoinType.LEFT);
 

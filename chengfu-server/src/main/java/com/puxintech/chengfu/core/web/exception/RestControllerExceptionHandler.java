@@ -23,7 +23,7 @@ import com.puxintech.chengfu.core.exception.BaseException;
  * @author yanhai
  *
  */
-@RestControllerAdvice(basePackages = "com.puxintech", annotations = RestController.class)
+@RestControllerAdvice(basePackages = "com.puxintech.laker", annotations = RestController.class)
 public class RestControllerExceptionHandler {
 
 	@ExceptionHandler(Exception.class)

@@ -14,6 +14,9 @@ import org.springframework.util.StringUtils;
 import com.puxintech.chengfu.core.resource.params.QueryParams;
 import com.puxintech.chengfu.core.resource.params.filter.FilterMode;
 
+import lombok.Data;
+
+@Data
 public class LeaveEntityQueryParams implements QueryParams<LeaveEntity> {
 
 	private static final long serialVersionUID = 1L;
@@ -29,7 +32,7 @@ public class LeaveEntityQueryParams implements QueryParams<LeaveEntity> {
 			expressions.add(QueryParams.filter(root, query, cb, filter, FilterMode.Contains, "name"));
 		}
 		if (status!=null && status.size()!=0) {
-			expressions.add(root.get("status").in(status));
+			expressions.add(root.get("leaveAuditStatus").in(status));
 		}
 		query.orderBy(cb.desc(root.get("createdDate")));
 

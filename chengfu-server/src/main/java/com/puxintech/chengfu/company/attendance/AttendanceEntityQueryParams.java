@@ -14,6 +14,9 @@ import org.springframework.util.StringUtils;
 import com.puxintech.chengfu.core.resource.params.QueryParams;
 import com.puxintech.chengfu.core.resource.params.filter.FilterMode;
 
+import lombok.Data;
+
+@Data
 public class AttendanceEntityQueryParams implements QueryParams<AttendanceEntity>{
 	
 	private static final long serialVersionUID = 1L;
